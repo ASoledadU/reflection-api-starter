@@ -22,11 +22,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication().dataSource(dataSource);
     }
 
-    @Override
+ @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .authorizeRequests().anyRequest().authenticated()
-            .and()
-            .httpBasic();
+        http.anonymous().and().csrf().disable();
     }
 }

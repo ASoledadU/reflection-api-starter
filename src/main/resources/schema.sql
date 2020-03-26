@@ -51,3 +51,29 @@ CREATE TABLE IF NOT EXISTS reflections (
     id SERIAL PRIMARY KEY,
     date DATE NOT NULL UNIQUE
 );
+
+CREATE TABLE IF NOT EXISTS reflections (
+    id SERIAL PRIMARY KEY,
+    date DATE NOT NULL UNIQUE,
+    questions TEXT NULL
+);
+
+CREATE TABLE IF NOT EXISTS questions (
+    id SERIAL PRIMARY KEY,
+    prompt TEXT NOT NULL,
+    reflectionId INTEGER REFERENCES reflections(id)
+);
+
+CREATE TABLE IF NOT EXISTS responses (
+    id SERIAL PRIMARY KEY UNIQUE,
+    reflectionId INTEGER REFERENCES reflections(id),
+    userUsername TEXT NOT NULL,
+    answers TEXT NULL
+);
+
+CREATE TABLE IF NOT EXISTS answers (
+    id SERIAL PRIMARY KEY UNIQUE,
+    responseId INTEGER REFERENCES responses(id),
+    questionId INTEGER REFERENCES questions(id),
+    content TEXT NOT NULL
+);

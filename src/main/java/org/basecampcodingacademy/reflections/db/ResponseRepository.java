@@ -38,8 +38,8 @@ public class ResponseRepository {
         }
     }
 
-    public Response find(Integer id) {
-        return jdbc.queryForObject("SELECT id, reflectionId, userUsername FROM responses WHERE id = ?", this::mapper, id);
+    public List<Response> findForReflection(Response response) {
+        return jdbc.query("SELECT id, reflectionId, userUsername FROM responses WHERE reflectionId = ?", this::mapper, response.reflectionId);
     }
 
     public Response update(Response response) {

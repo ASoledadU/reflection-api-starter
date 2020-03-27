@@ -49,11 +49,6 @@ UPDATE users SET password = '{noop}testpass';
 
 CREATE TABLE IF NOT EXISTS reflections (
     id SERIAL PRIMARY KEY,
-    date DATE NOT NULL UNIQUE
-);
-
-CREATE TABLE IF NOT EXISTS reflections (
-    id SERIAL PRIMARY KEY,
     date DATE NOT NULL UNIQUE,
     questions TEXT NULL
 );

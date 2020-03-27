@@ -6,6 +6,9 @@ import org.basecampcodingacademy.reflections.exceptions.ResponseForExistingRefle
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.basecampcodingacademy.reflections.domain.Answer;
+import org.basecampcodingacademy.reflections.domain.Response;
+import org.basecampcodingacademy.reflections.domain.Response;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,27 +20,25 @@ import java.util.Objects;
 public class ResponseController {
     @Autowired
     public ResponseRepository responses;
-
+    
     @GetMapping
-    public List<Response> index() {
-        return responses.all();
+    public List<Response> index(Response response, @PathVariable Integer reflectionId) {
+        response.reflectionId = reflectionId;
+        return (List<Response>) responses.getOne(response);
     }
+    
+    @Autowired
+    public ReflectionRepository reflections;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Response create(@RequestBody Response response, @PathVariable Integer reflectionId) throws ResponseForExistingReflection {
+        response.reflectionId = reflectionId;
         if (!Objects.isNull(responses.find(response.reflectionId))) {
-            response.reflectionId = reflectionId;
             return responses.create(response);
         }
         throw new ResponseForExistingReflection(response.reflectionId);
     }
-
-//    @GetMapping("/today")
-//    public Response today() {
-//        var response =  responses;
-//        return response;
-//    }
 
     @PatchMapping("/{id}")
     public Response update(@PathVariable Integer reflectionId,@PathVariable Integer id, @RequestBody Response response) {
